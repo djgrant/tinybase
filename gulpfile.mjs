@@ -63,12 +63,14 @@ const ALL_MODULES = [
   'ui-react-dom',
   'ui-react-inspector',
   'ui-react',
+  'ui-solid',
 ];
 const ALL_DEFINITIONS = [
   ...ALL_MODULES,
   '_internal/store',
   '_internal/queries',
   '_internal/ui-react',
+  '_internal/ui-solid',
 ];
 
 const DIST_DIR = 'dist';
@@ -517,9 +519,13 @@ const compileModule = async (module, dir = DIST_DIR, min = false) => {
       'react',
       'react-dom',
       'react/jsx-runtime',
+      'solid-js',
+      'solid-js/jsx-runtime',
       'url',
       'yjs',
-      ...(module == 'omni' ? [] : ['tinybase/store', '../ui-react']),
+      ...(module == 'omni'
+        ? []
+        : ['tinybase/store', '../ui-react', '../ui-solid']),
     ],
     input: inputFile,
     plugins: [
@@ -532,7 +538,12 @@ const compileModule = async (module, dir = DIST_DIR, min = false) => {
         '/*!': '\n/*',
         delimiters: ['', ''],
         preventAssignment: true,
-        ...(module == 'omni' ? {} : {'../ui-react/index.ts': '../ui-react'}),
+        ...(module == 'omni'
+          ? {}
+          : {
+              '../ui-react/index.ts': '../ui-react',
+              '../ui-solid/index.ts': '../ui-solid',
+            }),
       }),
       shebang(),
       image(),
@@ -573,10 +584,20 @@ const compileModule = async (module, dir = DIST_DIR, min = false) => {
     ['../ui-react', '../../ui-react/with-schemas/' + index],
     outputFileWithSchemas,
   );
+  await copyWithReplace(
+    outputFileWithSchemas,
+    ['../ui-solid', '../../ui-solid/with-schemas/' + index],
+    outputFileWithSchemas,
+  );
 
   await copyWithReplace(
     outputFile,
     ['../ui-react', '../ui-react/' + index],
+    outputFile,
+  );
+  await copyWithReplace(
+    outputFile,
+    ['../ui-solid', '../ui-solid/' + index],
     outputFile,
   );
 

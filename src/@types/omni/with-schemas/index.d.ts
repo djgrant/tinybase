@@ -44,3 +44,4 @@ export * from '../../synchronizers/with-schemas/index.d.ts';
 export {WithSchemas as UiReactDomWithSchemas} from '../../ui-react-dom/with-schemas/index.d.ts';
 export {WithSchemas as UiReactInspectorWithSchemas} from '../../ui-react-inspector/with-schemas/index.d.ts';
 export {WithSchemas as UiReactWithSchemas} from '../../ui-react/with-schemas/index.d.ts';
+export {WithSchemas as UiSolidWithSchemas} from '../../ui-solid/with-schemas/index.d.ts';
